@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Because of Winn-Dixie — A Reading Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --parchment:   #F5F1E8;
+  --beige:       #E9E2D3;
+  --sunfade:     #EFE8DA;
+  --ink:         #2F2A26;
+  --ink-mid:     #5C534A;
+  --ink-soft:    #8C7E72;
+  --ochre:       #C9A46A;
+  --sage:        #7A8C87;
+  --denim:       #6F7C8C;
+  --divider:     #D8CFBF;
+  --surface:     #EFE8DA;
+  --surface-alt: #E3DAC8;
+  --shadow-warm: rgba(47,42,38,0.08);
+  --shadow-mid:  rgba(47,42,38,0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 17px; }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 320px 320px;
+}
+
+body {
+  background-color: var(--parchment);
+  color: var(--ink);
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ===== MASTHEAD ===== */
+.masthead {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2.5rem;
+}
+.masthead-rule {
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--ochre) 20%, var(--ochre) 80%, transparent);
+  margin-bottom: 2.2rem;
+}
+.masthead-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 0.85rem;
+}
+.masthead h1 {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: clamp(2.1rem, 5vw, 3rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  margin-bottom: 0.5rem;
+}
+.masthead-author {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.masthead-byline {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  margin-top: 1.6rem;
+  border-left: 2px solid var(--divider);
+  padding-left: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ===== ZONE NAVIGATION ===== */
+.zone-nav-wrap {
+  border-top: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
+  background: var(--sunfade);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.zone-nav {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.zone-nav::-webkit-scrollbar { display: none; }
+.zone-btn {
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  padding: 0.85rem 1.1rem 0.75rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.zone-btn:hover { color: var(--ink); }
+.zone-btn.active { color: var(--ink); border-bottom-color: var(--ochre); }
+.zone-btn .zone-num {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: block;
+  color: var(--ochre);
+  margin-bottom: 0.12rem;
+  opacity: 0.75;
+}
+
+/* ===== MAIN ===== */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+/* ===== ZONE ===== */
+.zone { display: none; padding-top: 3rem; }
+.zone.active { display: block; }
+.zone.entering { animation: zoneIn 0.4s ease both; }
+@keyframes zoneIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Spatial dramaturgy — open → dense → open */
+#z1 .surface, #z2 .surface { max-width: 680px; }
+#z3 .surface, #z4 .surface, #z5 .surface { max-width: 720px; }
+#z6 .surface { max-width: 640px; margin-left: auto; margin-right: auto; }
+#z6 .surface.reflective { max-width: 540px; }
+#z6 .still-point { max-width: 640px; margin-left: auto; margin-right: auto; }
+.zone-title {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 1.7rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+  font-weight: 400;
+}
+.zone-subtitle {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.zone-teacher-note {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.77rem;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--divider);
+  padding-left: 0.8rem;
+  margin-bottom: 2.4rem;
+  line-height: 1.55;
+  max-width: 560px;
+  opacity: 0.75;
+}
+
+/* ===== SURFACE BASE ===== */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 2rem 2.2rem;
+  margin-bottom: 2.4rem;
+  box-shadow: 0 8px 24px rgba(120,95,60,0.08);
+}
+.surface.alt { background: var(--surface-alt); }
+
+/* LIGHT surface — open, spacious, early/final zones */
+.surface.light {
+  padding: 2.6rem 2.4rem;
+  background: rgba(245,241,232,0.55);
+  border-color: rgba(216,207,191,0.6);
+  box-shadow: 0 8px 24px rgba(120,95,60,0.08);
+  margin-bottom: 2.8rem;
+}
+.surface.light .entry-prompt { font-size: 1.25rem; }
+
+/* DENSE surface — relational, mid zones — ONE affordance signal: left accent rule only */
+.surface.dense {
+  padding: 1.8rem 2rem;
+  background: var(--surface-alt);
+  border-color: var(--divider);
+  border-left: 3px solid var(--ochre);
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 8px 24px rgba(120,95,60,0.08);
+  margin-bottom: 2.4rem;
+}
+
+/* REFLECTIVE surface — centred, single focus */
+.surface.reflective {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 3.5rem 0;
+  border-top: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
+  border-radius: 0;
+  margin-bottom: 3rem;
+  text-align: center;
+  max-width: 540px;
+  margin-inline: auto;
+}
+.surface.reflective .entry-prompt {
+  font-size: 1.32rem;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.surface.reflective .entry-note {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.surface.reflective .thinking-area {
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+.surface.reflective .word-count {
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* OPEN surface (pause screens) */
+.surface.open {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding-block: 6rem;
+  padding-inline: 0;
+  border-top: 1px solid var(--divider);
+  border-radius: 0;
+}
+
+/* Interactive affordance */
+[data-interactive] {
+  transition: box-shadow 0.25s cubic-bezier(.22,.61,.36,1), border-color 0.25s, transform 0.22s cubic-bezier(.22,.61,.36,1), filter 0.22s;
+}
+[data-interactive]:hover {
+  box-shadow: 0 8px 24px rgba(120,95,60,0.08);
+  border-color: rgba(201,164,106,0.5);
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+/* Dense surfaces are left-border anchored — no lift, no filter */
+.surface.dense[data-interactive]:hover {
+  transform: none;
+  filter: none;
+  box-shadow: 0 8px 24px rgba(120,95,60,0.08);
+  border-color: rgba(201,164,106,0.35);
+}
+/* Reflective surfaces — warmth shift only */
+.surface.reflective[data-interactive]:hover {
+  background: rgba(255,255,255,0.07);
+  transform: none;
+  filter: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+/* ===== PROMPTS ===== */
+.entry-prompt {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 1.18rem;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+.entry-note {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.3rem;
+  line-height: 1.55;
+}
+.surface-rule { height: 1px; background: var(--divider); margin: 1.4rem 0; }
+
+/* ===== TEXTAREA ===== */
+.thinking-area {
+  width: 100%;
+  min-height: 110px;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid var(--divider);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.8;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.18s, background 0.18s;
+  background-image: repeating-linear-gradient(transparent, transparent 42px, rgba(216,207,191,0.25) 42px, rgba(216,207,191,0.25) 43px);
+  background-attachment: local;
+}
+.thinking-area:focus { border-color: var(--ochre); background-color: rgba(255,255,255,0.6); }
+.thinking-area::placeholder { color: var(--ink-soft); font-style: italic; opacity: 0.65; }
+.word-count { font-family: 'Source Sans 3', sans-serif; font-size: 0.7rem; color: var(--ink-soft); text-align: right; margin-top: 0.3rem; }
+
+/* ===== LITERARY QUOTE ===== */
+.literary-quote {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink);
+  line-height: 1.75;
+  padding: 1.1rem 1.4rem;
+  border-left: 2.5px solid var(--ochre);
+  background: rgba(255,255,255,0.28);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1.2rem;
+}
+.quote-attr { font-family: 'Source Sans 3', sans-serif; font-size: 0.72rem; color: var(--ink-soft); margin-top: 0.4rem; }
+
+/* ===== DRAG/SORT ===== */
+.drag-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 1rem;
+  background: rgba(255,255,255,0.22);
+  border: 1px dashed var(--divider);
+  border-radius: 4px;
+  margin-bottom: 1.2rem;
+  min-height: 54px;
+}
+.drag-token {
+  background: var(--beige);
+  border: 1px solid var(--divider);
+  border-radius: 3px;
+  padding: 0.28rem 0.8rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.14s;
+  box-shadow: 0 1px 2px var(--shadow-warm);
+}
+.drag-token:hover { background: var(--parchment); border-color: var(--ochre); color: var(--ink); }
+.drag-token.selected { background: var(--ochre); color: white; border-color: #b08d55; }
+.drag-token.placed { opacity: 0.3; cursor: default; pointer-events: none; }
+
+/* ===== GROUPING ===== */
+.group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.4rem; }
+.group-bin {
+  background: rgba(255,255,255,0.38);
+  border: 1.5px dashed var(--divider);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  min-height: 90px;
+  cursor: pointer;
+  transition: border-color 0.16s;
+}
+.group-bin:hover, .group-bin.active-bin { border-color: var(--ochre); background: rgba(201,164,106,0.05); }
+.group-bin-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sage);
+  margin-bottom: 0.6rem;
+}
+.bin-items { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+/* ===== RANKING ===== */
+.rank-list { list-style: none; }
+.rank-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.44);
+  border: 1px solid var(--divider);
+  border-radius: 4px;
+  margin-bottom: 0.6rem;
+  cursor: grab;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: var(--ink);
+  user-select: none;
+  transition: box-shadow 0.22s cubic-bezier(.22,.61,.36,1), opacity 0.18s;
+}
+.rank-item:hover { box-shadow: 0 3px 10px var(--shadow-mid); }
+.rank-item.drag-over { border-color: var(--ochre); }
+.rank-handle { color: var(--divider); font-size: 0.9rem; flex-shrink: 0; }
+.rank-num { font-family: 'Source Sans 3', sans-serif; font-size: 0.68rem; color: var(--ochre); min-width: 1.1rem; }
+
+.bin-item {
+  background: var(--beige);
+  border: 1px solid var(--divider);
+  border-radius: 3px;
+  padding: 0.2rem 0.6rem;
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--ink-mid);
+  cursor: pointer;
+  opacity: 0.88;
+  transition: opacity 0.18s;
+}
+.bin-item:hover { background: var(--parchment); opacity: 1; }
+
+/* ===== CHAR MAP ===== */
+.char-map { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.65rem; margin-bottom: 0.8rem; }
+.char-node {
+  background: rgba(255,255,255,0.38);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 0.9rem 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.char-node:hover { border-color: var(--sage); box-shadow: 0 2px 8px var(--shadow-warm); }
+.char-node.selected { border-color: var(--ochre); background: rgba(201,164,106,0.08); }
+.char-node-name { font-family: 'Crimson Text', serif; font-style: italic; font-size: 1rem; color: var(--ink); display: block; margin-bottom: 0.15rem; }
+.char-node-word { font-family: 'Source Sans 3', sans-serif; font-size: 0.68rem; color: var(--sage); letter-spacing: 0.07em; }
+
+.char-expand {
+  background: rgba(255,255,255,0.32);
+  border: 1px solid var(--divider);
+  border-radius: 4px;
+  padding: 0 1.4rem;
+  margin-top: 0.4rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.32s cubic-bezier(.22,.61,.36,1), opacity 0.24s ease, padding 0.24s ease;
+}
+.char-expand.open {
+  max-height: 600px;
+  opacity: 1;
+  padding: 1.2rem 1.4rem;
+}
+.char-expand-name { font-family: 'Crimson Text', serif; font-style: italic; font-size: 1.12rem; color: var(--ink); margin-bottom: 0.6rem; }
+.char-expand p { font-family: 'Source Sans 3', sans-serif; font-size: 0.87rem; color: var(--ink-mid); line-height: 1.7; margin-bottom: 0.55rem; }
+.char-thinking { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.92rem; color: var(--ink-soft); border-top: 1px solid var(--divider); padding-top: 0.65rem; margin-top: 0.4rem; }
+
+/* ===== WORD MARKING ===== */
+.word-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.w-item {
+  padding: 0.3rem 0.85rem;
+  border-radius: 3px;
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  cursor: pointer;
+  border: 1.5px solid var(--divider);
+  color: var(--ink);
+  transition: all 0.16s;
+  background: rgba(255,255,255,0.32);
+}
+.w-item.mark-a { background: var(--ochre); color: white; border-color: #b08d55; }
+.w-item.mark-b { background: var(--sage); color: white; border-color: #5e736e; }
+.w-item.mark-c { background: var(--denim); color: white; border-color: #556070; }
+.w-item.marked  { background: var(--ochre); color: white; border-color: #b08d55; }
+.mark-legend { display: flex; gap: 1.1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.mark-legend-item { display: flex; align-items: center; gap: 0.4rem; font-family: 'Source Sans 3', sans-serif; font-size: 0.73rem; color: var(--ink-soft); cursor: pointer; padding: 0.2rem 0.5rem 0.2rem 0.3rem; border-radius: 3px; border: 1px solid transparent; transition: all 0.15s; }
+.mark-legend-item:hover { color: var(--ink); }
+.mark-legend-item.active-mode { color: var(--ink); border-color: var(--divider); background: rgba(255,255,255,0.45); }
+.mark-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ===== MOMENT CARDS ===== */
+.moment-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.2rem; }
+.moment-card {
+  background: rgba(255,255,255,0.38);
+  border: 1px solid var(--divider);
+  border-radius: 5px;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.16s;
+}
+.moment-card:hover { border-color: var(--sage); }
+.moment-card.held { border-color: var(--ochre); background: rgba(201,164,106,0.07); }
+.moment-card p { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.9rem; color: var(--ink); line-height: 1.62; }
+.moment-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ochre); margin-bottom: 0.35rem; }
+
+/* ===== REFLECTION PAUSE ===== */
+.pause-screen {
+  text-align: center;
+  padding: 3rem 1rem 2.5rem;
+}
+.pause-word { font-family: 'Crimson Text', serif; font-style: italic; font-size: 2.1rem; color: var(--ink); display: block; margin-bottom: 0.75rem; }
+.pause-screen > p { font-family: 'Source Sans 3', sans-serif; font-size: 0.87rem; color: var(--ink-soft); max-width: 420px; margin: 0 auto; line-height: 1.65; }
+
+/* ===== SPECTRUM ===== */
+.spectrum-label-row { display: flex; justify-content: space-between; font-family: 'Source Sans 3', sans-serif; font-size: 0.7rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.55rem; }
+.spectrum-wrap { position: relative; margin-bottom: 1.4rem; }
+.spectrum-track { height: 6px; background: linear-gradient(90deg, var(--sage), var(--divider) 50%, var(--ochre)); border-radius: 3px; }
+.spectrum-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px;
+  background: transparent;
+  position: absolute; top: 0; left: 0;
+  cursor: pointer; outline: none;
+}
+.spectrum-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  background: var(--parchment);
+  border: 2.5px solid var(--ochre);
+  box-shadow: 0 2px 6px var(--shadow-mid);
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.spectrum-slider::-webkit-slider-thumb:hover { transform: scale(1.18); }
+.spectrum-reading { font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; color: var(--ink-soft); text-align: center; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+.rank-item.selected { border-color: var(--ochre); background: rgba(201,164,106,0.10); }
+
+/* ===== SENTENCE STEMS ===== */
+.stem-row { display: flex; align-items: baseline; gap: 0.45rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+.stem-fixed { font-family: 'Crimson Text', serif; font-style: italic; font-size: 1.02rem; color: var(--ink-mid); white-space: nowrap; }
+.stem-input {
+  flex: 1; min-width: 200px;
+  border: none; border-bottom: 1px solid var(--divider);
+  background: transparent;
+  font-family: 'Crimson Text', serif; font-size: 1.02rem; color: var(--ink);
+  outline: none; padding: 0.15rem 0.15rem 0.12rem;
+  transition: border-color 0.18s;
+}
+.stem-input:focus { border-bottom-color: var(--ochre); }
+.stem-input::placeholder { color: var(--ink-soft); font-style: italic; opacity: 0.5; }
+
+/* ===== COLLAGE ZONE (not a surface) ===== */
+.collage-zone {
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  padding: 2.5rem 0 2.5rem;
+  border-top: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
+}
+
+/* ===== COLLAGE ===== */
+.collage-wall { display: flex; flex-wrap: wrap; gap: 0.45rem; min-height: 56px; padding: 0.85rem; border: 1px dashed var(--divider); border-radius: 4px; margin-bottom: 0.6rem; }
+.collage-add-row { display: flex; gap: 0.55rem; align-items: center; }
+.collage-input { flex: 1; border: 1px solid var(--divider); background: rgba(255,255,255,0.4); border-radius: 3px; padding: 0.38rem 0.7rem; font-family: 'Crimson Text', serif; font-size: 0.95rem; color: var(--ink); outline: none; }
+.collage-input:focus { border-color: var(--ochre); }
+.c-tag { background: var(--beige); border: 1px solid var(--divider); border-radius: 3px; padding: 0.25rem 0.62rem; font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.9rem; color: var(--ink); cursor: pointer; transition: all 0.14s; }
+.c-tag:hover { background: var(--parchment); }
+
+/* ===== STILL POINT ===== */
+.still-point { border: 1px solid var(--divider); border-radius: 5px; padding: 2.5rem 2rem; text-align: center; background: rgba(255,255,255,0.2); margin-bottom: 3rem; }
+.sp-quote { font-family: 'Crimson Text', serif; font-style: italic; font-size: 1.22rem; color: var(--ink); line-height: 1.72; margin-bottom: 0.9rem; }
+.sp-note { font-family: 'Source Sans 3', sans-serif; font-size: 0.77rem; color: var(--ink-soft); }
+
+/* ===== FOOTER ===== */
+footer { max-width: 720px; margin: 0 auto; padding: 1.4rem 2rem; border-top: 1px solid var(--divider); font-family: 'Source Sans 3', sans-serif; font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.05em; display: flex; justify-content: space-between; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 2px; }
+
+@media (max-width: 580px) {
+  .masthead { padding: 2.5rem 1.3rem 1.8rem; }
+  main { padding: 0 1.3rem 4rem; }
+  .zone-btn { padding: 0.7rem 0.8rem 0.6rem; }
+  .group-grid { grid-template-columns: 1fr; }
+  .char-map { grid-template-columns: 1fr 1fr; }
+  .moment-cards { grid-template-columns: 1fr; }
+  .surface { padding: 1.4rem 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== MASTHEAD ===== -->
+<div class="masthead">
+  <div class="masthead-label">A Reading Journey</div>
+  <div class="masthead-rule"></div>
+  <h1>Because of Winn-Dixie</h1>
+  <div class="masthead-author">Kate DiCamillo</div>
+  <div class="masthead-byline">
+    Six zones of thinking &nbsp;·&nbsp; Grade 6 &nbsp;·&nbsp; Explore in any order
+  </div>
+</div>
+
+<!-- ===== ZONE NAVIGATION ===== -->
+<div class="zone-nav-wrap">
+  <nav class="zone-nav">
+    <button class="zone-btn active" onclick="setZone('z1')">
+      <span class="zone-num">one</span>Meeting Winn-Dixie
+    </button>
+    <button class="zone-btn" onclick="setZone('z2')">
+      <span class="zone-num">two</span>Opal's World
+    </button>
+    <button class="zone-btn" onclick="setZone('z3')">
+      <span class="zone-num">three</span>People Who Appear
+    </button>
+    <button class="zone-btn" onclick="setZone('z4')">
+      <span class="zone-num">four</span>Strange &amp; Tender Moments
+    </button>
+    <button class="zone-btn" onclick="setZone('z5')">
+      <span class="zone-num">five</span>Things That Begin to Change
+    </button>
+    <button class="zone-btn" onclick="setZone('z6')">
+      <span class="zone-num">six</span>What Stays With Us
+    </button>
+  </nav>
+</div>
+
+<main>
+
+<!-- ============================= -->
+<!-- ZONE 1: MEETING WINN-DIXIE   -->
+<!-- ============================= -->
+<div id="z1" class="zone active">
+  <div class="zone-title">Meeting Winn-Dixie</div>
+  <div class="zone-subtitle">Early reading · Zone One</div>
+  <div class="zone-teacher-note">Open zone. Use for first encounter with the novel — projection-led or individual. No right answers anywhere here.</div>
+
+  <!-- Surface 1.1: First encounter — OPEN, pure noticing -->
+  <div class="surface open" style="padding-block:6rem;">
+    <div style="max-width:560px; margin:0 auto; text-align:center;">
+      <div class="entry-prompt" style="font-size:1.38rem; margin-bottom:1.2rem;">He had a large head, and his ears were sort of lopsided. One of them stood straight up, and the other one flopped over.</div>
+      <div class="entry-note" style="margin-bottom:2rem;">DiCamillo gives us a dog before she gives us anything else. Just this one physical fact, seen by a ten-year-old girl who is very much alone.</div>
+      <div class="surface-rule" style="max-width:400px; margin:0 auto 1.8rem;"></div>
+      <div class="entry-prompt" style="font-size:1.08rem; margin-bottom:0.5rem;">What do you notice first about him?</div>
+      <div class="entry-note" style="margin-bottom:1rem;">Not about the story. What you actually notice, reading this.</div>
+      <textarea class="thinking-area" id="t1-1" style="max-width:480px; margin:0 auto; display:block; text-align:left;" placeholder="A few words is enough. Or a sentence. Or more." onInput="wc(this,'wc1-1')"></textarea>
+      <div class="word-count" id="wc1-1" style="max-width:480px; margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <!-- Surface 1.2: The name — LIGHT INTERACTION (grouping) -->
+  <div class="surface light" data-interactive data-group="g1">
+    <div class="entry-prompt">She names him after the supermarket where she found him.</div>
+    <div class="entry-note">Not after a person. Not after something beautiful. After a place she happened to be.</div>
+    <div class="surface-rule"></div>
+    <div class="entry-prompt" style="font-size:1.05rem;">What does a name do? Place each idea where it feels right.</div>
+    <div class="entry-note">Click a phrase to select it, then click a pile to place it. Click an item in a pile to return it. You can put everything in one pile if you want.</div>
+
+    <div class="drag-bank" id="bank-1-2">
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">holds memory</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">marks belonging</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">tells a story</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">creates distance</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">makes something real</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">is just a sound</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">is an act of love</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g1')">changes the thing named</div>
+    </div>
+
+    <div class="group-grid">
+      <div class="group-bin" data-bin="bin-a" data-bin-key="a">
+        <div class="group-bin-label">A name is something that happens between people —</div>
+        <div class="bin-items" id="bin-a"></div>
+      </div>
+      <div class="group-bin" data-bin="bin-b" data-bin-key="b">
+        <div class="group-bin-label">A name is something that happens inside one person —</div>
+        <div class="bin-items" id="bin-b"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.1rem;">
+      <div class="entry-prompt" style="font-size:0.97rem;">What does it mean, then, that she named him after a supermarket?</div>
+      <textarea class="thinking-area" id="t1-2" style="min-height:80px;" placeholder="A word or a sentence is enough." onInput="wc(this,'wc1-2')"></textarea>
+      <div class="word-count" id="wc1-2"></div>
+    </div>
+  </div>
+
+  <!-- Surface 1.3: Reflection pause — OPEN -->
+  <div class="surface open">
+    <div class="pause-screen">
+      <span class="pause-word">Belonging.</span>
+      <p>Before this chapter ends, Opal and Winn-Dixie have found each other. What does it feel like to be found by something you didn't know you were looking for?</p>
+    </div>
+  </div>
+
+</div><!-- /zone 1 -->
+
+
+<!-- ============================= -->
+<!-- ZONE 2: OPAL'S WORLD         -->
+<!-- ============================= -->
+<div id="z2" class="zone">
+  <div class="zone-title">Opal's World</div>
+  <div class="zone-subtitle">Early reading · Zone Two</div>
+  <div class="zone-teacher-note">Emotional mapping zone. Good for whole-class discussion after first few chapters. The Preacher surface works well for projection.</div>
+
+  <!-- Surface 2.1: Loneliness mapping — OPEN -->
+  <div class="surface open" style="padding-block:6rem;">
+    <div style="max-width:560px; margin:0 auto; text-align:center;">
+      <div class="entry-prompt" style="font-size:1.22rem; margin-bottom:0.6rem;">Opal is ten years old and she doesn't know anyone in Naomi yet.</div>
+      <div class="entry-note" style="margin-bottom:1.4rem;">She has a father who is hard to reach, a mother she can't remember, and a new town that doesn't know her name.</div>
+      <div class="surface-rule" style="max-width:400px; margin:0 auto 1.4rem;"></div>
+      <div class="entry-prompt" style="font-size:1.05rem; margin-bottom:0.5rem;">Which of these words feels closest to Opal at the start of the story?</div>
+      <div class="entry-note" style="margin-bottom:0.9rem;">Click to mark. Click again to unmark. You can mark more than one.</div>
+
+      <div class="word-cloud" id="wcloud-2-1" data-mark="wc21" style="justify-content:center;">
+        <div class="w-item" onclick="markCycle(this,'wc21')">lonely</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">invisible</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">hopeful</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">watchful</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">forgotten</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">restless</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">brave</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">angry</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">searching</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">tired</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">curious</div>
+        <div class="w-item" onclick="markCycle(this,'wc21')">adrift</div>
+      </div>
+
+      <textarea class="thinking-area" id="t2-1" style="max-width:480px; margin:1rem auto 0; display:block; text-align:left;" placeholder="What made you choose those words?" onInput="wc(this,'wc2-1')"></textarea>
+      <div class="word-count" id="wc2-1" style="max-width:480px; margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <!-- Surface 2.2: The Preacher — DENSE -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">Throughout the book, Opal mostly calls her father "the Preacher" — not "Dad".</div>
+
+    <div class="surface-rule"></div>
+    <div class="entry-prompt" style="font-size:1.05rem;">What does that small distance in a name feel like?</div>
+
+    <div class="moment-cards" id="mc-2-2">
+      <div class="moment-card" onclick="holdCard(this)">
+        <div class="moment-label">One reading</div>
+        <p>She loves him but can't always reach him.</p>
+      </div>
+      <div class="moment-card" onclick="holdCard(this)">
+        <div class="moment-label">Another reading</div>
+        <p>She sees him as he is to others, not only to her.</p>
+      </div>
+      <div class="moment-card" onclick="holdCard(this)">
+        <div class="moment-label">Another reading</div>
+        <p>The name keeps her safe — it's easier not to call him Dad.</p>
+      </div>
+      <div class="moment-card" onclick="holdCard(this)">
+        <div class="moment-label">Your reading</div>
+        <p>Something else entirely — write it below.</p>
+      </div>
+    </div>
+
+    <textarea class="thinking-area" id="t2-2" placeholder="Your own thought about it..." onInput="wc(this,'wc2-2')"></textarea>
+    <div class="word-count" id="wc2-2"></div>
+  </div>
+
+  <!-- Surface 2.3: Ten things — REFLECTIVE -->
+  <div class="surface reflective">
+    <div class="entry-prompt" style="font-size:1.18rem; margin-bottom:0.6rem;">The Preacher tells Opal ten things about her mother. It's everything she knows.</div>
+    <div class="entry-note">DiCamillo builds a character the reader never meets through a list told by someone who is also grieving.</div>
+    <div class="surface-rule" style="max-width:540px; margin-left:auto; margin-right:auto;"></div>
+    <div class="entry-prompt" style="font-size:1.05rem; margin-bottom:0.5rem;">Think of someone who matters to you. Write three things that someone else might not know about them.</div>
+    <textarea class="thinking-area" id="t2-3" style="min-height:100px;" placeholder="Not their name. Something quieter than that." onInput="wc(this,'wc2-3')"></textarea>
+    <div class="word-count" id="wc2-3"></div>
+  </div>
+
+</div><!-- /zone 2 -->
+
+
+<!-- ============================= -->
+<!-- ZONE 3: PEOPLE WHO APPEAR    -->
+<!-- ============================= -->
+<div id="z3" class="zone">
+  <div class="zone-title">People Who Appear</div>
+  <div class="zone-subtitle">Mid reading · Zone Three</div>
+  <div class="zone-teacher-note">Relational zone. Best used after students have met most characters. The character explorer works well for projection-led class discussion — open one character at a time.</div>
+
+  <!-- Surface 3.1: Character explorer — DENSE -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">Naomi is full of people who are also, in their own way, alone.</div>
+    <div class="entry-note">Click a name to open their world. What do they carry?</div>
+
+    <div class="char-map">
+      <div class="char-node" onclick="charToggle('char-franny')" data-char="char-franny">
+        <span class="char-node-name">Miss Franny</span>
+        <span class="char-node-word">librarian</span>
+      </div>
+      <div class="char-node" onclick="charToggle('char-otis')" data-char="char-otis">
+        <span class="char-node-name">Otis</span>
+        <span class="char-node-word">pet shop</span>
+      </div>
+      <div class="char-node" onclick="charToggle('char-gloria')" data-char="char-gloria">
+        <span class="char-node-name">Gloria Dump</span>
+        <span class="char-node-word">the garden</span>
+      </div>
+      <div class="char-node" onclick="charToggle('char-dunlap')" data-char="char-dunlap">
+        <span class="char-node-name">Dunlap &amp; Stevie</span>
+        <span class="char-node-word">the boys next door</span>
+      </div>
+      <div class="char-node" onclick="charToggle('char-amanda')" data-char="char-amanda">
+        <span class="char-node-name">Amanda Wilkinson</span>
+        <span class="char-node-word">the pinched face</span>
+      </div>
+      <div class="char-node" onclick="charToggle('char-gertrude')" data-char="char-gertrude">
+        <span class="char-node-name">Gertrude</span>
+        <span class="char-node-word">the parrot</span>
+      </div>
+    </div>
+
+    <div class="char-expand" id="char-franny">
+      <div class="char-expand-name">Miss Franny Block</div>
+      <p>The town librarian. She has been there for decades, surrounded by stories, alone in her building. She tells Opal about a bear that walked into her library when she was young. She told it so many times she might have started to believe it differently than it happened.</p>
+      <div class="char-thinking">What do stories do for someone who is old and mostly alone?</div>
+    </div>
+    <div class="char-expand" id="char-otis">
+      <div class="char-expand-name">Otis</div>
+      <p>He plays guitar for the animals in the pet shop. He has a past he doesn't talk about. Opal doesn't ask. There is something in the way DiCamillo writes him — gentle, slightly apart, like someone who got used to being misunderstood.</p>
+      <div class="char-thinking">Why might music be easier than words for some people?</div>
+    </div>
+    <div class="char-expand" id="char-gloria">
+      <div class="char-expand-name">Gloria Dump</div>
+      <p>Her garden is wild and overgrown. Her eyesight is poor. She has a tree covered in glass bottles — one for each mistake she made. She doesn't hide her mistakes. She puts them somewhere she can see them.</p>
+      <div class="char-thinking">What is the difference between remembering your mistakes and being ashamed of them?</div>
+    </div>
+    <div class="char-expand" id="char-dunlap">
+      <div class="char-expand-name">Dunlap &amp; Stevie Dewberry</div>
+      <p>The boys who live nearby. They tease Opal, keep a cautious distance from Winn-Dixie, and say unkind things about Gloria Dump. It would be easy to call them the villains. DiCamillo doesn't quite let that happen.</p>
+      <div class="char-thinking">What might the Dewberry boys be afraid of?</div>
+    </div>
+    <div class="char-expand" id="char-amanda">
+      <div class="char-expand-name">Amanda Wilkinson</div>
+      <p>She has a pinched-looking face, Opal thinks. She is formal, careful with books, precise. She is carrying something Opal doesn't know about yet. When Opal finds out, everything shifts.</p>
+      <div class="char-thinking">Have you ever misjudged someone and then had to revise what you thought?</div>
+    </div>
+    <div class="char-expand" id="char-gertrude">
+      <div class="char-expand-name">Gertrude the Parrot</div>
+      <p>She sits in Otis's pet shop and says one word: "Jesus." Nobody knows why. She is small and improbable and she makes Opal laugh. Some presences in a story exist to remind you that the world is stranger and funnier than it seems.</p>
+      <div class="char-thinking">What does humour do in a story full of loneliness?</div>
+    </div>
+  </div>
+
+  <!-- Surface 3.2: Connection lines — REFLECTIVE -->
+  <div class="surface reflective" data-interactive>
+    <div class="entry-prompt">All of these characters come to Opal's party at the end. They would not have met otherwise.</div>
+    <div class="entry-note">Winn-Dixie is the thread between them.</div>
+    <div class="surface-rule" style="max-width:540px; margin-left:auto; margin-right:auto;"></div>
+    <div class="entry-prompt" style="font-size:1.05rem;">What do all of them — even the Preacher, even Amanda — have in common?</div>
+    <div class="entry-note" style="max-width:480px; margin-left:auto; margin-right:auto;">If they were all at the same table, what would they understand about each other that no one else would?</div>
+    <textarea class="thinking-area" id="t3-2" placeholder="One thing. Or one word. Or a longer thought." onInput="wc(this,'wc3-2')"></textarea>
+    <div class="word-count" id="wc3-2"></div>
+  </div>
+
+  <!-- Surface 3.3: Reflective close — REFLECTIVE -->
+  <div class="surface reflective" style="border-top:none;">
+    <div class="entry-prompt" style="font-size:1.5rem; margin-bottom:0.9rem;">Loneliness.</div>
+    <div class="entry-note">Where in your own life does this word land?</div>
+    <textarea class="thinking-area" id="t3-3" style="min-height:90px;" placeholder="You don't have to share this." onInput="wc(this,'wc3-3')"></textarea>
+    <div class="word-count" id="wc3-3"></div>
+  </div>
+
+</div><!-- /zone 3 -->
+
+
+<!-- ============================= -->
+<!-- ZONE 4: STRANGE & TENDER     -->
+<!-- ============================= -->
+<div id="z4" class="zone">
+  <div class="zone-title">Strange &amp; Tender Moments</div>
+  <div class="zone-subtitle">Mid reading · Zone Four</div>
+  <div class="zone-teacher-note">The emotional core of the unit. These surfaces reward slow class discussion more than individual task completion. Allow silence. The ranking works best after students have finished the book.</div>
+
+  <!-- Surface 4.1: The Littmus Lozenge — OPEN atmosphere -->
+  <div class="surface open" style="padding-block:6rem; margin-bottom:0; border-bottom:none;">
+    <div style="max-width:540px; margin:0 auto; text-align:center;">
+      <div class="literary-quote" style="text-align:left; max-width:500px; margin:0 auto 1.6rem;">
+        "Littmus W. Block had gone off to fight in the Civil War, and when he came home, there was nothing to come home to. He was completely and utterly alone in the world. And so, to deal with his sadness, he built a candy factory."
+        <div class="quote-attr">Because of Winn-Dixie, Chapter 15</div>
+      </div>
+      <div class="entry-prompt" style="font-size:1.1rem;">The Littmus Lozenge tastes sweet and sad at the same time.</div>
+    </div>
+  </div>
+
+  <!-- Pause between 4.1 and 4.2 — REFLECTIVE -->
+  <div class="surface reflective" style="border-top:none;">
+    <div class="entry-prompt" style="font-size:1.15rem; margin-bottom:0.8rem;">Littmus Block built a candy factory out of grief. What do we build out of ours?</div>
+    <div class="entry-note">Think of something you have eaten — or a smell, a sound — that carried a feeling with it.</div>
+    <textarea class="thinking-area" id="t4-1" style="min-height:100px;" placeholder="Take your time with this one." onInput="wc(this,'wc4-1')"></textarea>
+    <div class="word-count" id="wc4-1"></div>
+  </div>
+
+  <!-- Surface 4.2: Tender moments — ranking — DENSE -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">Some moments in this book carry more weight than others.</div>
+    <div class="entry-note">Drag to reorder these from the moment that moved you most to the moment that moved you least. There is no right order.</div>
+
+    <ul class="rank-list" id="rank-moments" data-rank="rank-moments">
+      <li class="rank-item" data-key="opal-reads" onclick="rankTap('opal-reads','rank-moments')"><span class="rank-num">1</span><span class="rank-handle">⠿</span>Opal reads to Winn-Dixie during a thunderstorm</li>
+      <li class="rank-item" data-key="gloria-fruit" onclick="rankTap('gloria-fruit','rank-moments')"><span class="rank-num">2</span><span class="rank-handle">⠿</span>Gloria lets Opal pick fruit from her garden and eat it</li>
+      <li class="rank-item" data-key="preacher-ten" onclick="rankTap('preacher-ten','rank-moments')"><span class="rank-num">3</span><span class="rank-handle">⠿</span>The Preacher tells Opal ten things about her mother</li>
+      <li class="rank-item" data-key="otis-guitar" onclick="rankTap('otis-guitar','rank-moments')"><span class="rank-num">4</span><span class="rank-handle">⠿</span>Otis plays guitar and all the animals go still</li>
+      <li class="rank-item" data-key="winn-storm" onclick="rankTap('winn-storm','rank-moments')"><span class="rank-num">5</span><span class="rank-handle">⠿</span>Winn-Dixie disappears during the thunderstorm at the party</li>
+      <li class="rank-item" data-key="gloria-yards" onclick="rankTap('gloria-yards','rank-moments')"><span class="rank-num">6</span><span class="rank-handle">⠿</span>Gloria tells Opal not to judge people by their yards</li>
+    </ul>
+
+    <div style="margin-top:0.8rem;">
+      <div class="entry-prompt" style="font-size:1rem;">Why did you put your first choice first?</div>
+      <textarea class="thinking-area" id="t4-2" style="min-height:90px;" placeholder="What is it about that moment that holds more weight?" onInput="wc(this,'wc4-2')"></textarea>
+      <div class="word-count" id="wc4-2"></div>
+    </div>
+  </div>
+
+  <!-- Surface 4.3: The bottle tree — RELATIONAL -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">Gloria Dump's tree is covered in glass bottles — one for each of her past mistakes. She doesn't hide them.</div>
+    <div class="surface-rule"></div>
+
+    <div class="entry-prompt" style="font-size:1.05rem;">Where on this line does Gloria's bottle tree sit?</div>
+    <div class="entry-note">Drag the marker.</div>
+    <div class="spectrum-label-row">
+      <span>Grief</span>
+      <span>Neither</span>
+      <span>Acceptance</span>
+    </div>
+    <div class="spectrum-wrap">
+      <div class="spectrum-track"></div>
+      <input class="spectrum-slider" type="range" min="0" max="100" value="50" id="spec-4-3" oninput="setSpectrum('s43',this.value)">
+    </div>
+    <div class="spectrum-reading" id="spec-label-s43">holding both</div>
+
+    <div class="entry-prompt" style="font-size:1rem; margin-top:0.3rem;">What made you place it there?</div>
+    <textarea class="thinking-area" id="t4-3" style="min-height:90px;" placeholder="Something between the two, perhaps. Or neither." onInput="wc(this,'wc4-3')"></textarea>
+    <div class="word-count" id="wc4-3"></div>
+  </div>
+
+</div><!-- /zone 4 -->
+
+
+<!-- ============================= -->
+<!-- ZONE 5: THINGS THAT CHANGE   -->
+<!-- ============================= -->
+<div id="z5" class="zone">
+  <div class="zone-title">Things That Begin to Change</div>
+  <div class="zone-subtitle">Mid–late reading · Zone Five</div>
+  <div class="zone-teacher-note">Pattern-recognition zone. Use once students have enough of the story to argue. The sorting task (5.2) generates the best discussion — there is no correct answer and students will disagree productively.</div>
+
+  <!-- Surface 5.1: Shift mapping — DENSE -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">Something changes in this story — not all at once, and not completely.</div>
+    <div class="entry-note">Which of these do you think changes most? Drag to rank them.</div>
+
+    <ul class="rank-list" id="rank-changes" data-rank="rank-changes">
+      <li class="rank-item" data-key="feels-naomi" onclick="rankTap('feels-naomi','rank-changes')"><span class="rank-num">1</span><span class="rank-handle">⠿</span>How Opal feels about Naomi</li>
+      <li class="rank-item" data-key="feels-mother" onclick="rankTap('feels-mother','rank-changes')"><span class="rank-num">2</span><span class="rank-handle">⠿</span>How Opal feels about her mother</li>
+      <li class="rank-item" data-key="dist-father" onclick="rankTap('dist-father','rank-changes')"><span class="rank-num">3</span><span class="rank-handle">⠿</span>The distance between Opal and her father</li>
+      <li class="rank-item" data-key="opal-needs" onclick="rankTap('opal-needs','rank-changes')"><span class="rank-num">4</span><span class="rank-handle">⠿</span>What Opal thinks she needs</li>
+      <li class="rank-item" data-key="sees-lonely" onclick="rankTap('sees-lonely','rank-changes')"><span class="rank-num">5</span><span class="rank-handle">⠿</span>How Opal sees the other lonely people around her</li>
+    </ul>
+    <div style="margin-top:0.9rem;">
+      <div class="entry-prompt" style="font-size:0.97rem;">What made you put that one first?</div>
+      <textarea class="thinking-area" id="t5-1" style="min-height:80px;" placeholder="A word or a sentence is enough." onInput="wc(this,'wc5-1')"></textarea>
+      <div class="word-count" id="wc5-1"></div>
+    </div>
+  </div>
+
+  <!-- Surface 5.2: What Winn-Dixie does — DENSE (RELATIONAL) -->
+  <div class="surface dense" data-interactive data-group="g5">
+    <div class="entry-prompt">Winn-Dixie doesn't speak, plan, or understand. He just exists, and things happen.</div>
+    <div class="entry-note">Sort these into two piles: things Winn-Dixie causes, and things Opal causes herself.</div>
+
+    <div class="drag-bank" id="bank-5-2">
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She meets Gloria</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She talks to the Preacher</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She visits Miss Franny</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She forgives her mother</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She organises the party</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She goes looking for him in the storm</div>
+      <div class="drag-token" onclick="tokenCycle(this,'g5')">She begins to feel at home</div>
+    </div>
+
+    <div class="group-grid">
+      <div class="group-bin" data-bin="bin-5a" data-bin-key="a">
+        <div class="group-bin-label">Because of Winn-Dixie —</div>
+        <div class="bin-items" id="bin-5a"></div>
+      </div>
+      <div class="group-bin" data-bin="bin-5b" data-bin-key="b">
+        <div class="group-bin-label">Because of Opal herself —</div>
+        <div class="bin-items" id="bin-5b"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Surface 5.2b: reflection on agency — REFLECTIVE -->
+  <div class="surface reflective">
+    <div class="entry-prompt" style="margin-bottom:0.7rem;">Is that line as clear as it seems?</div>
+    <div class="entry-note">Some things might belong in both piles. Or in neither.</div>
+    <div class="surface-rule" style="max-width:540px; margin-left:auto; margin-right:auto;"></div>
+    <textarea class="thinking-area" id="t5-2" placeholder="A thought about cause and accident." onInput="wc(this,'wc5-2')"></textarea>
+    <div class="word-count" id="wc5-2"></div>
+  </div>
+
+  <!-- Surface 5.3: DiCamillo's sentences — RELATIONAL -->
+  <div class="surface dense" data-interactive>
+    <div class="entry-prompt">The first sentence already knows how the story will end.</div>
+    <div class="entry-note">Kate DiCamillo opens the whole novel with these twenty-one words. Mark the ones that carry something — importance, surprise, or a question you want to sit with.</div>
+
+    <div class="word-cloud" id="wcloud-5-3" data-mark="wc53">
+      <div class="w-item" onclick="markCycle(this,'wc53')">My</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">name</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">is</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">India</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">Opal</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">Buloni</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">and</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">last</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">summer</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">my</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">daddy</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">the</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">preacher</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">took</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">me</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">to</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">the</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">Florida</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">store</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">called</div>
+      <div class="w-item" onclick="markCycle(this,'wc53')">Winn-Dixie</div>
+    </div>
+    <div class="mark-legend">
+      <div class="mark-legend-item mark-a-ind">
+        <div class="mark-dot" style="background:var(--ochre);"></div> Feels important
+      </div>
+      <div class="mark-legend-item mark-b-ind">
+        <div class="mark-dot" style="background:var(--sage);"></div> Surprises me
+      </div>
+      <div class="mark-legend-item mark-c-ind">
+        <div class="mark-dot" style="background:var(--denim);"></div> I want to think about this
+      </div>
+    </div>
+
+    <div style="margin-top:1.1rem;">
+      <div class="entry-prompt" style="font-size:0.97rem;">What did you mark, and why?</div>
+      <textarea class="thinking-area" id="t5-3" style="min-height:80px;" placeholder="One word, or one surprise, or something you can't quite explain." onInput="wc(this,'wc5-3')"></textarea>
+      <div class="word-count" id="wc5-3"></div>
+    </div>
+  </div>
+
+</div><!-- /zone 5 -->
+
+
+<!-- ============================= -->
+<!-- ZONE 6: WHAT STAYS WITH US   -->
+<!-- ============================= -->
+<div id="z6" class="zone">
+  <div class="zone-title">What Stays With Us</div>
+  <div class="zone-subtitle">Late reading · Zone Six</div>
+  <div class="zone-teacher-note">Closing zone. Allow the pace to slow here. Sentence stems work well as a quiet individual activity. The word collage makes a good whole-class ending — project it and build it together.</div>
+
+  <!-- Surface 6.1: Still point — final quote -->
+  <div class="still-point">
+    <div class="sp-quote">"There ain't no way you can hold on to something that wants to go, you understand? You can only love what you got while you got it."</div>
+    <div class="sp-note">Gloria Dump, to Opal</div>
+  </div>
+
+  <!-- Surface 6.2: Sentence stems — OPEN -->
+  <div class="surface open" style="padding-block:6rem;">
+    <div style="max-width:540px; margin:0 auto;">
+      <div class="entry-prompt" style="font-size:1.08rem; margin-bottom:0.4rem;">Complete these slowly. Take the one that means something to you.</div>
+      <div class="entry-note" style="margin-bottom:1.8rem;">There is no rush. There is no wrong answer.</div>
+
+      <div class="stem-row">
+        <span class="stem-fixed">The thing I keep thinking about is</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">Before this story, I thought loneliness was</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">Now I think it might be</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">The character I understood least was</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">The character I want to know more about is</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">Because of Winn-Dixie, Opal learned</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+      <div class="stem-row">
+        <span class="stem-fixed">Because of this story, I</span>
+        <input class="stem-input" placeholder="—">
+      </div>
+    </div>
+  </div>
+
+  <!-- Surface 6.3: What you carry — REFLECTIVE -->
+  <div class="surface reflective" data-interactive>
+    <div class="entry-prompt">Gloria Dump carries her mistakes on a tree. The Preacher carries his wife's leaving in his silence. Winn-Dixie carries his fear of storms in his whole body.</div>
+    <div class="entry-note">Every character in this book carries something.</div>
+    <div class="surface-rule" style="max-width:540px; margin-left:auto; margin-right:auto;"></div>
+    <div class="entry-prompt" style="font-size:1.05rem;">Write a longer thought here — anything the story left with you.</div>
+    <textarea class="thinking-area" id="t6-3" style="min-height:160px;" placeholder="This is yours. No one needs to read it." onInput="wc(this,'wc6-3')"></textarea>
+    <div class="word-count" id="wc6-3"></div>
+  </div>
+
+  <!-- Surface 6.4: Collage — outside surface system, placed between reflective and final close -->
+  <div class="collage-zone">
+    <div class="entry-prompt" style="font-size:1.05rem; text-align:center; margin-bottom:0.5rem;">Words from the story that you want to keep.</div>
+    <div class="entry-note" style="text-align:center; margin-bottom:1rem;">Type a word and press return to add it. Click a word to remove it.</div>
+
+    <div class="collage-wall" id="collage-6-4"></div>
+    <div class="collage-add-row">
+      <input class="collage-input" id="collage-input" placeholder="Write a word and press return —" onkeydown="if(event.key==='Enter')addTag()">
+    </div>
+  </div>
+
+  <!-- Final — REFLECTIVE close -->
+  <div class="surface reflective" style="margin-top:2rem;">
+    <div class="entry-prompt" style="font-size:1.55rem; margin-bottom:0.6rem;">We lived inside this story.</div>
+    <div class="entry-note">That is enough.</div>
+  </div>
+
+</div><!-- /zone 6 -->
+
+</main>
+
+<footer>
+  <span>Because of Winn-Dixie · Kate DiCamillo</span>
+  <span>A literary thinking environment</span>
+</footer>
+
+<script>
+
+/* ======================
+   GLOBAL STATE
+====================== */
+const S = {
+  zone: "z1",
+  groupings: {},   // { g1: { word: "a"|"b"|"bank" }, g5: {...} }
+  rankings: {},    // { "rank-moments": [...keys], "rank-changes": [...keys] }
+  markings: {},    // { wc21: { word: "none"|"a"|"b"|"c" }, wc53: {...} }
+  reflections: {}, // { textareaId: value }
+  spectrum: {},    // { s43: numVal }
+  characterOpen: null,
+  collage: ["belonging","melancholy","peculiar","notion","forgive","stray","lonesome","tender"]
+};
+
+/* ======================
+   DRAMATURGICAL ENGINE L2
+====================== */
+
+const ENGINE = {
+  vectors: {
+    emotional: 30,
+    analytical: 25,
+    symbolic: 35,
+    imaginative: 40,
+    engagement: 50
+  },
+  trajectory: {
+    engagementTrend: "stable",
+    escalationMode: "soft",
+    imaginativeMomentum: 0
+  },
+  zoneMemory: [],
+  cueCooldown: 0,
+  lastInteraction: Date.now()
+};
+
+function ENGINE_trackInteraction(){
+  const now = Date.now();
+  const diff = now - ENGINE.lastInteraction;
+  if(diff > 60000){
+    ENGINE.vectors.engagement -= 4;
+    ENGINE.trajectory.engagementTrend = "drifting";
+  } else {
+    ENGINE.vectors.engagement += 1;
+  }
+  ENGINE.lastInteraction = now;
+}
+
+function ENGINE_imaginationHeuristic(text){
+  if(!text) return 0;
+  let score = 0;
+  if(/like|as if|felt like|seems|maybe|strange|odd|almost/i.test(text)) score += 5;
+  if(/because|but|however|although/i.test(text)) score += 2;
+  if(/lonely|afraid|quiet|sad|curious/i.test(text)) score += 3;
+  return score;
+}
+
+function ENGINE_updateFromWriting(text){
+  const words = text.trim().split(/\s+/).length;
+  const imag = ENGINE_imaginationHeuristic(text);
+  ENGINE.vectors.imaginative += imag;
+  ENGINE.vectors.symbolic += imag * 0.6;
+  if(words > 40) ENGINE.vectors.analytical += 3;
+  if(words > 15 && imag > 0) ENGINE.vectors.emotional += 2;
+  ENGINE.vectors.imaginative = Math.min(100, ENGINE.vectors.imaginative);
+  ENGINE.vectors.symbolic = Math.min(100, ENGINE.vectors.symbolic);
+  ENGINE.vectors.emotional = Math.min(100, ENGINE.vectors.emotional);
+}
+
+function ENGINE_intrigueCue(){
+  const cues = [
+    "That is a curious way of seeing it.",
+    "Something interesting is beginning here.",
+    "The story might be opening slightly.",
+    "There may be more inside that thought.",
+    "That feels worth noticing."
+  ];
+  return cues[Math.floor(Math.random()*cues.length)];
+}
+
+function ENGINE_maybeCue(zone){
+  if(ENGINE.cueCooldown > 0){ ENGINE.cueCooldown--; return; }
+  let cueText = "";
+  if(zone === "z4" && ENGINE.vectors.symbolic > 45)      cueText = ENGINE_intrigueCue();
+  else if(ENGINE.vectors.imaginative > 55)               cueText = ENGINE_intrigueCue();
+  else if(ENGINE.vectors.engagement < 40)                cueText = "It may help to return to what happened.";
+  else if(zone === "z6")                                 cueText = "Let this stay unfinished.";
+  if(cueText){ ENGINE_showCue(cueText); ENGINE.cueCooldown = 3; }
+}
+
+function ENGINE_showCue(text){
+  let cue = document.getElementById("dramaturgical-cue");
+  if(!cue){
+    cue = document.createElement("div");
+    cue.id = "dramaturgical-cue";
+    cue.style.cssText = "position:fixed;bottom:22px;left:50%;transform:translateX(-50%);font-family:'Crimson Text',serif;font-style:italic;color:rgba(47,42,38,0.65);opacity:0;transition:opacity 2s ease;pointer-events:none;z-index:9999;font-size:1rem;";
+    document.body.appendChild(cue);
+  }
+  cue.textContent = text;
+  cue.style.opacity = "1";
+  setTimeout(()=>{ cue.style.opacity = "0"; }, 5200);
+}
+
+/* ======================
+   INIT
+====================== */
+function init(){
+  // Seed grouping words
+  const g1words = ["holds memory","marks belonging","tells a story","creates distance",
+                   "makes something real","is just a sound","is an act of love","changes the thing named"];
+  const g5words = ["She meets Gloria","She talks to the Preacher","She visits Miss Franny",
+                   "She forgives her mother","She organises the party",
+                   "She goes looking for him in the storm","She begins to feel at home"];
+  S.groupings.g1 = Object.fromEntries(g1words.map(w=>[w,"bank"]));
+  S.groupings.g5 = Object.fromEntries(g5words.map(w=>[w,"bank"]));
+  renderGrouping("g1");
+  renderGrouping("g5");
+
+  // Seed rankings
+  S.rankings["rank-moments"] = ["opal-reads","gloria-fruit","preacher-ten","otis-guitar","winn-storm","gloria-yards"];
+  S.rankings["rank-changes"] = ["feels-naomi","feels-mother","dist-father","opal-needs","sees-lonely"];
+  renderRanking("rank-moments");
+  renderRanking("rank-changes");
+
+  // Seed markings
+  S.markings.wc21 = {};
+  S.markings.wc53 = {};
+
+  // Seed collage
+  renderCollage();
+
+  // Seed spectrum label
+  setSpectrum("s43", 50);
+}
+
+/* ======================
+   ZONE NAVIGATION
+====================== */
+function setZone(id){
+  S.zone = id;
+  document.querySelectorAll(".zone").forEach(z => z.classList.remove("active","entering"));
+  document.querySelectorAll(".zone-btn").forEach(b => b.classList.remove("active"));
+  const zone = document.getElementById(id);
+  zone.classList.add("active");
+  const btn = [...document.querySelectorAll(".zone-btn")]
+    .find(b => b.getAttribute("onclick")?.includes(`'${id}'`));
+  if(btn) btn.classList.add("active");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ zone.classList.add("entering"); }));
+  ENGINE.zoneMemory.push(id);
+  ENGINE_maybeCue(id);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ======================
+   WORD COUNT
+====================== */
+function wc(el, id){
+  const text = el.value.trim();
+  const n = text ? text.split(/\s+/).length : 0;
+  const out = document.getElementById(id);
+  if(out) out.textContent = n ? `${n} word${n!==1?"s":""}` : "";
+  if(el.id) S.reflections[el.id] = el.value;
+  ENGINE_trackInteraction();
+  ENGINE_updateFromWriting(text);
+}
+
+/* ======================
+   GROUPING (CYCLE: bank → a → b → bank)
+====================== */
+function tokenCycle(el, surface){
+  const word = el.textContent.trim();
+  const cur = S.groupings[surface]?.[word] || "bank";
+  const next = cur==="bank" ? "a" : cur==="a" ? "b" : "bank";
+  if(!S.groupings[surface]) S.groupings[surface] = {};
+  S.groupings[surface][word] = next;
+  renderGrouping(surface);
+}
+
+function renderGrouping(surface){
+  const root = document.querySelector(`[data-group="${surface}"]`);
+  if(!root) return;
+  const bank = root.querySelector(".drag-bank");
+  const binA = root.querySelector('[data-bin-key="a"] .bin-items');
+  const binB = root.querySelector('[data-bin-key="b"] .bin-items');
+  if(!bank || !binA || !binB) return;
+  bank.innerHTML = "";
+  binA.innerHTML = "";
+  binB.innerHTML = "";
+  Object.entries(S.groupings[surface]).forEach(([word, loc])=>{
+    const el = document.createElement("div");
+    el.className = "drag-token";
+    el.textContent = word;
+    el.onclick = ()=>tokenCycle(el, surface);
+    if(loc==="bank") bank.appendChild(el);
+    else if(loc==="a") binA.appendChild(el);
+    else if(loc==="b") binB.appendChild(el);
+  });
+}
+
+/* ======================
+   RANKING (TAP TO SWAP)
+====================== */
+let rankSel = null;
+
+const rankLabels = {
+  "opal-reads":    "Opal reads to Winn-Dixie during a thunderstorm",
+  "gloria-fruit":  "Gloria lets Opal pick fruit from her garden and eat it",
+  "preacher-ten":  "The Preacher tells Opal ten things about her mother",
+  "otis-guitar":   "Otis plays guitar and all the animals go still",
+  "winn-storm":    "Winn-Dixie disappears during the thunderstorm at the party",
+  "gloria-yards":  "Gloria tells Opal not to judge people by their yards",
+  "feels-naomi":   "How Opal feels about Naomi",
+  "feels-mother":  "How Opal feels about her mother",
+  "dist-father":   "The distance between Opal and her father",
+  "opal-needs":    "What Opal thinks she needs",
+  "sees-lonely":   "How Opal sees the other lonely people around her"
+};
+
+function rankTap(key, listId){
+  if(!rankSel){
+    rankSel = key;
+    document.querySelectorAll(`#${listId} .rank-item`).forEach(el=>{
+      el.classList.toggle("selected", el.dataset.key===key);
+    });
+    return;
+  }
+  if(rankSel===key){ // deselect
+    rankSel = null;
+    document.querySelectorAll(".rank-item").forEach(el=>el.classList.remove("selected"));
+    return;
+  }
+  const arr = S.rankings[listId];
+  const ai = arr.indexOf(rankSel), bi = arr.indexOf(key);
+  [arr[ai], arr[bi]] = [arr[bi], arr[ai]];
+  rankSel = null;
+  renderRanking(listId);
+}
+
+function renderRanking(listId){
+  const ul = document.getElementById(listId);
+  if(!ul) return;
+  ul.innerHTML = "";
+  S.rankings[listId].forEach((key, i)=>{
+    const li = document.createElement("li");
+    li.className = "rank-item";
+    li.dataset.key = key;
+    li.onclick = ()=>rankTap(key, listId);
+    li.innerHTML = '<span class="rank-num">' + (i+1) + '</span><span class="rank-handle">&#10815;</span>' + (rankLabels[key]||key);
+    ul.appendChild(li);
+  });
+}
+
+/* ======================
+   WORD MARKING (CYCLE: none → a → b → c → none)
+====================== */
+const markOrder = ["none","a","b","c"];
+
+function markCycle(el, surface){
+  const word = el.textContent.trim();
+  if(!S.markings[surface]) S.markings[surface] = {};
+  const cur = S.markings[surface][word] || "none";
+  const next = markOrder[(markOrder.indexOf(cur)+1) % markOrder.length];
+  S.markings[surface][word] = next;
+  renderMarks(surface);
+}
+
+function renderMarks(surface){
+  document.querySelectorAll(`[data-mark="${surface}"] .w-item`).forEach(el=>{
+    const w = el.textContent.trim();
+    el.classList.remove("mark-a","mark-b","mark-c");
+    const m = S.markings[surface]?.[w];
+    if(m==="a") el.classList.add("mark-a");
+    else if(m==="b") el.classList.add("mark-b");
+    else if(m==="c") el.classList.add("mark-c");
+  });
+}
+
+/* ======================
+   MOMENT CARDS (HOLD)
+====================== */
+function holdCard(card){
+  card.classList.toggle("held");
+}
+
+/* ======================
+   CHARACTER EXPAND
+====================== */
+function charToggle(id){
+  S.characterOpen = S.characterOpen===id ? null : id;
+  document.querySelectorAll(".char-expand").forEach(e=>e.classList.remove("open"));
+  document.querySelectorAll(".char-node").forEach(n=>n.classList.remove("selected"));
+  if(!S.characterOpen) return;
+  const expand = document.getElementById(S.characterOpen);
+  const node = document.querySelector(`[data-char="${S.characterOpen}"]`);
+  if(expand) expand.classList.add("open");
+  if(node) node.classList.add("selected");
+  if(expand) expand.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+/* ======================
+   SPECTRUM
+====================== */
+function setSpectrum(id, val){
+  S.spectrum[id] = Number(val);
+  const label = document.getElementById(`spec-label-${id}`);
+  if(!label) return;
+  const v = Number(val);
+  label.textContent =
+    v<20 ? "still hurting" :
+    v<40 ? "mostly grief" :
+    v<60 ? "holding both" :
+    v<80 ? "mostly acceptance" :
+    "at peace";
+}
+
+/* ======================
+   COLLAGE
+====================== */
+function addTag(){
+  const input = document.getElementById("collage-input");
+  const val = input.value.trim();
+  if(!val) return;
+  if(!S.collage.includes(val)) S.collage.push(val);
+  input.value = "";
+  renderCollage();
+}
+
+function removeTag(el){
+  S.collage = S.collage.filter(w => w!==el.textContent.trim());
+  renderCollage();
+}
+
+function renderCollage(){
+  const wall = document.getElementById("collage-6-4");
+  if(!wall) return;
+  wall.innerHTML = "";
+  S.collage.forEach(w=>{
+    const el = document.createElement("div");
+    el.className = "c-tag";
+    el.textContent = w;
+    el.onclick = ()=>removeTag(el);
+    wall.appendChild(el);
+  });
+}
+
+/* ======================
+   BOOT
+====================== */
+document.addEventListener("DOMContentLoaded", init);
+
+</script>
+
+</body>
+</html>
